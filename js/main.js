@@ -60,10 +60,10 @@
 
   /* ── CLIENT WEIGHTS DATA ─────────────────────────── */
   const WEIGHT_DATA = [
-    { label: 'Content Volume',  img: 'Sample/photo.jpg', alt: 'Starter' },
-    { label: 'Time Investment', img: 'Sample/photo.jpg', alt: 'Growth' },
-    { label: 'Turnaround',      img: 'Sample/photo.jpg', alt: 'Scale' },
-    { label: 'Output Format',   img: 'Sample/photo.jpg', alt: 'Custom' },
+    { label: 'Content Volume',  img: 'Photos/weight-1.jpeg', alt: 'Starter' },
+    { label: 'Time Investment', img: 'Photos/weight-2.jpeg', alt: 'Growth' },
+    { label: 'Turnaround',      img: 'Photos/weight-3.jpeg', alt: 'Scale' },
+    { label: 'Output Format',   img: 'Photos/weight-4.jpeg', alt: 'Custom' },
   ];
 
   /* ══════════════════════════════════════════════════
