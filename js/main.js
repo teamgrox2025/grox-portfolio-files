@@ -117,7 +117,8 @@
       <div class="iphone-screen">
         <video
           class="hls-video"
-          data-src="${videoSrc || VIDEO_SRC}"
+          data-src="${videoSrc || ''}"
+          preload="metadata"
           playsinline
           ${muted !== false ? 'muted' : ''}
           loop
@@ -276,7 +277,7 @@
 
         item.addEventListener('click', () => {
           if (window.GroX && window.GroX.openModal) {
-            window.GroX.openModal(views);
+            window.GroX.openModal(views, src);
           }
         });
 
@@ -334,7 +335,7 @@
         const frame = buildIphoneFrame('iphone-xl', videoSrc, true, frameVariant);
         w.appendChild(frame);
         w.addEventListener('click', () => {
-          if (window.GroX && window.GroX.openModal) window.GroX.openModal('500K+');
+          if (window.GroX && window.GroX.openModal) window.GroX.openModal('500K+', videoSrc);
         });
         phonesRow.appendChild(w);
       }

@@ -58,23 +58,21 @@
     });
   }
 
-  function openModal(viewsText) {
+  function openModal(viewsText, videoSrc) {
     if (isOpen) return;
     isOpen = true;
 
     buildModalIphone();
 
     const modal = document.getElementById('video-modal');
+    const src = videoSrc || VIDEO_SRC;
 
-    // Unmute and init for modal
     if (modalVideo) {
+      // Always destroy and reload so the correct video plays
+      if (window.GroX) window.GroX.destroyHLS(modalVideo);
+      modalVideo._hlsInit = false;
       modalVideo.muted = false;
-      if (window.GroX && !modalVideo._hlsInit) {
-        window.GroX.initHLSVideo(modalVideo, VIDEO_SRC, false);
-      } else if (modalVideo._hlsInit) {
-        modalVideo.muted = false;
-        modalVideo.play().catch(() => {});
-      }
+      if (window.GroX) window.GroX.initHLSVideo(modalVideo, src, false);
       const muteBtn = document.getElementById('modal-mute-btn');
       if (muteBtn) muteBtn.textContent = '🔊';
     }
