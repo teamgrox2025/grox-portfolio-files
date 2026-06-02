@@ -1400,12 +1400,39 @@ footer {
   /* Stats */
   .s-stats { padding: 0 24px 72px; }
 
-  /* Production */
-  .prod-panel { padding: 72px 24px 28px; }
+  /* Production — disable sticky scroll, stack as normal panels */
+  .s-production { padding: 0 24px 72px; overflow: visible; }
+  .prod-panel {
+    position: relative !important;
+    height: auto !important;
+    overflow: visible;
+    padding: 64px 24px 32px;
+    border-bottom: 1px solid var(--bone-dim-3);
+  }
   .prod-panel-top { margin-bottom: 24px; }
-  #prod-panels .iphone-frame { height: clamp(280px, 42vh, 400px); }
-  .prod-phones { gap: 20px; }
-  .prod-phones-6 { gap: 12px 20px; }
+  .prod-phones {
+    gap: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: flex-start;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    flex: none;
+  }
+  .prod-phones::-webkit-scrollbar { display: none; }
+  .prod-phone-wrap { scroll-snap-align: center; flex-shrink: 0; }
+  #prod-panels .iphone-frame { height: auto; width: clamp(160px, 45vw, 220px); }
+  .prod-phones-6 {
+    display: flex;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+  }
+  .prod-phones-6 .prod-phone-wrap { scroll-snap-align: center; height: auto; }
+  #prod-panels .prod-phones-6 .iphone-frame { height: auto; width: clamp(160px, 45vw, 220px); }
 
   /* Services — disable sticky flow-art, show as normal scroll */
   .srv-panel { position: relative; height: auto; overflow: visible; }
@@ -1461,44 +1488,11 @@ footer {
 /* ── MOBILE (≤ 600px) ────────────────────────────── */
 @media (max-width: 600px) {
   /* Production */
-  .prod-panel { padding: 68px 16px 24px; }
+  .prod-panel { padding: 56px 16px 24px; }
   .prod-step-num { font-size: clamp(52px, 13vw, 76px); }
   .prod-panel-top { gap: 14px; margin-bottom: 16px; }
-  /* Phones row → horizontal scroll on mobile */
-  .prod-phones {
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    justify-content: flex-start;
-    padding: 0 0 12px;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    gap: 16px;
-    flex: none; /* don't stretch vertically */
-    align-items: center;
-  }
-  .prod-phones::-webkit-scrollbar { display: none; }
-  .prod-phone-wrap {
-    scroll-snap-align: center;
-    flex-shrink: 0;
-  }
-  #prod-panels .iphone-frame {
-    height: auto;
-    width: 72vw;
-    max-width: 280px;
-  }
+  #prod-panels .iphone-frame { width: 72vw; max-width: 260px; }
   .prod-specs { margin-top: 12px; gap: 6px; }
-  /* Trainers: revert to horizontal scroll on mobile */
-  .prod-phones-6 {
-    display: flex;
-    overflow-x: auto;
-    justify-content: flex-start;
-    padding: 0 16px;
-    scroll-snap-type: x mandatory;
-    gap: 10px;
-  }
-  .prod-phones-6 .prod-phone-wrap { scroll-snap-align: start; height: auto; }
-  #prod-panels .prod-phones-6 .iphone-frame { height: clamp(150px, 38vw, 220px); width: auto; }
 
   /* Services */
   .srv-panel-inner { padding: 0 16px; }
