@@ -8,7 +8,16 @@
 (function () {
   'use strict';
 
-  const VIDEO_SRC = 'https://stream.files-vault.com/3b6e26e5-c34e-445c-9b33-c7ded0467404/playlist.m3u8';
+  const R2 = 'https://pub-549d705112f846b7ab510068faa4035a.r2.dev';
+
+  const VIRAL_VIDEOS = [
+    { src: R2 + '/viral/vp1.mp4', views: '3M' },
+    { src: R2 + '/viral/vp2.mp4', views: '2.9M' },
+    { src: R2 + '/viral/vp3.mp4', views: '849K' },
+    { src: R2 + '/viral/vp4.mp4', views: '759K' },
+    { src: R2 + '/viral/vp5.mp4', views: '549K' },
+    { src: R2 + '/viral/vp6.mp4', views: '1.1M' },
+  ];
 
   /* ── PRODUCTION DATA ─────────────────────────────── */
   const PROD_DATA = [
@@ -19,6 +28,7 @@
       tag: 'Audio-first storytelling for founders',
       specs: ['Multi-cam setup', '4K resolution', 'Professional audio', 'Short-form cuts'],
       phones: 3,
+      videos: [R2 + '/podcast/podcast1.mp4', R2 + '/podcast/podcast2.mp4', R2 + '/podcast/podcast3.mp4'],
     },
     {
       num: '02',
@@ -27,6 +37,7 @@
       tag: 'Food & ambience that makes people book',
       specs: ['Cinematic colour grade', 'Overhead & macro', 'Reel-first format', 'Same-day delivery'],
       phones: 3,
+      videos: [R2 + '/restaurant/restaurant1.mp4', R2 + '/restaurant/restaurant2.mp4', R2 + '/restaurant/restaurant3.mp4'],
     },
     {
       num: '03',
@@ -35,6 +46,7 @@
       tag: 'Trust-building content for clinics',
       specs: ['Clinical-grade lighting', 'Doctor framing', 'Compliance-safe scripts', 'Education-first cuts'],
       phones: 3,
+      videos: [R2 + '/healthcare/healthcare1.mp4', R2 + '/healthcare/healthcare2.mp4', R2 + '/healthcare/healthcare3.mp4'],
     },
     {
       num: '04',
@@ -43,6 +55,7 @@
       tag: 'Luxury properties shot to make people visit',
       specs: ['Aerial shots', 'Golden hour lighting', 'Walk-through edits', 'Property reels'],
       phones: 3,
+      videos: [R2 + '/farmhouse/farmhouse1.mp4', R2 + '/farmhouse/farmhouse2.mp4', R2 + '/farmhouse/farmhouse3.mp4'],
     },
     {
       num: '05',
@@ -51,10 +64,12 @@
       tag: 'Real-world documentation that converts',
       specs: ['Field & studio mix', 'Authentic narrative', 'Transformation edits', 'Long-form + reels'],
       phones: 3,
+      videos: [R2 + '/trainers/trainers1.mp4', R2 + '/trainers/trainers2.mp4', R2 + '/trainers/trainers3.mp4'],
     },
     {
       phones: 3,
       continuation: true,
+      videos: [R2 + '/trainers/trainers4.mp4', R2 + '/trainers/trainers5.mp4', R2 + '/trainers/trainers6.mp4'],
     },
   ];
 
@@ -245,18 +260,13 @@
   /* ══════════════════════════════════════════════════
      VIRAL STRIP — build 16 iPhones (lg, red, no-status)
   ══════════════════════════════════════════════════ */
-  const VIEW_COUNTS = ['612K', '1.2M', '870K', '540K', '2.1M', '730K', '980K', '450K'];
-
   function buildViralStrip() {
     const track = document.getElementById('viral-track');
     if (!track) return;
 
-    const src = track.dataset.video || VIDEO_SRC;
-    const count = 8;
-
     for (let set = 0; set < 2; set++) {
-      for (let i = 0; i < count; i++) {
-        const views = VIEW_COUNTS[i % VIEW_COUNTS.length];
+      for (let i = 0; i < VIRAL_VIDEOS.length; i++) {
+        const { src, views } = VIRAL_VIDEOS[i];
         const item = document.createElement('div');
         item.className = 'viral-item';
         item.dataset.views = views;
@@ -320,7 +330,8 @@
         const w = document.createElement('div');
         w.className = 'prod-phone-wrap';
         const frameVariant = (v % 3 === 1) ? 'iphone-bone iphone-no-status' : 'iphone-red iphone-no-status';
-        const frame = buildIphoneFrame('iphone-xl', src, true, frameVariant);
+        const videoSrc = (data.videos && data.videos[v]) ? data.videos[v] : src;
+        const frame = buildIphoneFrame('iphone-xl', videoSrc, true, frameVariant);
         w.appendChild(frame);
         w.addEventListener('click', () => {
           if (window.GroX && window.GroX.openModal) window.GroX.openModal('500K+');

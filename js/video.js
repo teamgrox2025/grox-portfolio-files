@@ -23,8 +23,14 @@ window.GroX.initHLSVideo = function (el, src, muted = true) {
   el.loop = true;
   el.playsInline = true;
 
+  // MP4 files play directly — no HLS needed
+  if (source.endsWith('.mp4')) {
+    el.src = source;
+    el.play().catch(() => {});
+    return;
+  }
+
   if (typeof Hls === 'undefined') {
-    // HLS.js not loaded yet — fallback to native
     el.src = source;
     el.play().catch(() => {});
     return;
