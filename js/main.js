@@ -272,8 +272,23 @@
         item.className = 'viral-item';
         item.dataset.views = views;
 
-        const frame = buildIphoneFrame('iphone-lg', src, true, 'iphone-red iphone-no-status');
-        item.appendChild(frame);
+        // Static iPhone shell — no video decoding in the strip
+        const shell = document.createElement('div');
+        shell.className = 'iphone-frame iphone-lg iphone-red iphone-no-status viral-shell';
+        shell.innerHTML = `
+          <div class="iphone-notch"></div>
+          <div class="iphone-screen viral-screen">
+            <div class="viral-play-icon">▶</div>
+          </div>
+          <div class="iphone-home"></div>
+        `;
+        item.appendChild(shell);
+
+        // View count badge
+        const badge = document.createElement('div');
+        badge.className = 'viral-views-badge';
+        badge.textContent = views + ' views';
+        item.appendChild(badge);
 
         item.addEventListener('click', () => {
           if (window.GroX && window.GroX.openModal) {
@@ -284,24 +299,6 @@
         track.appendChild(item);
       }
     }
-
-    // Only play videos that are visually inside the horizontal viewport
-    setInterval(() => {
-      const track = document.getElementById('viral-track');
-      if (!track) return;
-      track.querySelectorAll('.viral-item').forEach((item) => {
-        const rect = item.getBoundingClientRect();
-        const inView = rect.left < window.innerWidth + 60 && rect.right > -60;
-        const video = item.querySelector('video');
-        if (!video) return;
-        if (inView) {
-          if (!video._hlsInit) window.GroX.initHLSVideo(video);
-          else if (video.paused && video.muted) video.play().catch(() => {});
-        } else {
-          if (!video.paused) video.pause();
-        }
-      });
-    }, 500);
   }
 
   /* ══════════════════════════════════════════════════
@@ -732,10 +729,6 @@
     initCounters();
     initProcess();
 
-    // Prefetch viral videos immediately — these are above the fold
-    if (window.GroX && window.GroX.prefetchAll) {
-      window.GroX.prefetchAll(VIRAL_VIDEOS.map(v => v.src));
-    }
 
     // Build gradient bars
     buildGradientBars(document.getElementById('hero-bars'), 18, 'rgba(225,29,42,0.55)');

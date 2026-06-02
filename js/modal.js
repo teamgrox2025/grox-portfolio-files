@@ -67,27 +67,36 @@
     const modal = document.getElementById('video-modal');
     const src = videoSrc || VIDEO_SRC;
 
-    if (modalVideo) {
-      // Always destroy and reload so the correct video plays
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Animate first, then load video so click feels instant
+    if (typeof gsap !== 'undefined') {
+      gsap.fromTo(modal.querySelector('.modal-overlay'),
+        { opacity: 0 }, { opacity: 1, duration: 0.3 }
+      );
+      gsap.fromTo(modal.querySelector('.modal-iphone'),
+        { scale: 0.75, y: 50, opacity: 0 },
+        { scale: 1, y: 0, opacity: 1, duration: 0.45, ease: 'power3.out', delay: 0.05,
+          onComplete: () => {
+            if (modalVideo) {
+              if (window.GroX) window.GroX.destroyHLS(modalVideo);
+              modalVideo._hlsInit = false;
+              modalVideo.muted = false;
+              if (window.GroX) window.GroX.initHLSVideo(modalVideo, src, false);
+              const muteBtn = document.getElementById('modal-mute-btn');
+              if (muteBtn) muteBtn.textContent = '🔊';
+            }
+          }
+        }
+      );
+    } else if (modalVideo) {
       if (window.GroX) window.GroX.destroyHLS(modalVideo);
       modalVideo._hlsInit = false;
       modalVideo.muted = false;
       if (window.GroX) window.GroX.initHLSVideo(modalVideo, src, false);
       const muteBtn = document.getElementById('modal-mute-btn');
       if (muteBtn) muteBtn.textContent = '🔊';
-    }
-
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-
-    if (typeof gsap !== 'undefined') {
-      gsap.fromTo(modal.querySelector('.modal-overlay'),
-        { opacity: 0 }, { opacity: 1, duration: 0.35 }
-      );
-      gsap.fromTo(modal.querySelector('.modal-iphone'),
-        { scale: 0.75, y: 50, opacity: 0 },
-        { scale: 1, y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', delay: 0.05 }
-      );
     }
   }
 
