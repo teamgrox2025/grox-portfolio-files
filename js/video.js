@@ -78,33 +78,14 @@ window.GroX.destroyHLS = function (el) {
 window.GroX._lazyObserver = null;
 window.GroX._preloadObserver = null;
 
-// Prefetch a video using a hidden <link rel=preload> to avoid CORS fetch errors
+// Prefetch disabled — R2 videos are cross-origin and load fine via <video src>
+// Any fetch/preload attempt triggers CORS errors; lazy IntersectionObserver handles loading.
 window.GroX.prefetchVideo = function (url) {
-  if (!url || typeof url !== 'string') return;
-  // Deduplicate by tracking on the module-level Set
-  if (window.GroX._prefetchedUrls && window.GroX._prefetchedUrls.has(url)) return;
-  if (!window.GroX._prefetchedUrls) window.GroX._prefetchedUrls = new Set();
-  window.GroX._prefetchedUrls.add(url);
-  // Use <link rel=preload> — browser respects CORS naturally via <video>
-  try {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'video';
-    link.href = url;
-    document.head.appendChild(link);
-  } catch (e) {
-    // preload not supported — silently skip
-  }
+  /* no-op — intentionally disabled to avoid CORS console errors */
 };
 
-// Preload a list of video URLs immediately (used for above-the-fold videos)
-window.GroX.prefetchAll = function (urls) {
-  if (!Array.isArray(urls)) return;
-  // Stagger fetches so they don't all hit at once
-  urls.forEach((url, i) => {
-    setTimeout(() => window.GroX.prefetchVideo(url), i * 300);
-  });
-};
+// prefetchAll no-op — prefetch is disabled (CORS on R2)
+window.GroX.prefetchAll = function (urls) { /* no-op */ };
 
 window.GroX.lazyInitVideos = function () {
   // Preload observer — fires 900px before video enters view (larger on mobile for slow networks)
