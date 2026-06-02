@@ -162,7 +162,7 @@ nav.loaded .nav-links li:nth-child(6) .nav-link-dual { transition-delay: 0.30s; 
 
 /* ── SECTION HEADER SHARED ────────────────────────── */
 .section-header {
-  padding: 100px 48px 64px;
+  padding: clamp(60px, 9vw, 100px) clamp(16px, 4vw, 48px) clamp(40px, 5.5vw, 64px);
   text-align: center;
 }
 
@@ -192,7 +192,7 @@ nav.loaded .nav-links li:nth-child(6) .nav-link-dual { transition-delay: 0.30s; 
 .section-heading em { color: var(--red); font-style: normal; }
 
 .section-sub {
-  font-size: 17px;
+  font-size: clamp(14px, 2vw, 17px);
   color: var(--bone-dim);
   max-width: 540px;
   margin-top: 20px;
@@ -233,13 +233,18 @@ nav.loaded .nav-links li:nth-child(6) .nav-link-dual { transition-delay: 0.30s; 
 .nav-hamburger.open span:first-child { transform: rotate(45deg) translate(3px, 3.5px); }
 .nav-hamburger.open span:last-child  { transform: rotate(-45deg) translate(3px, -3.5px); }
 
+@media (hover: none) {
+  body { cursor: auto; }
+  #cursor-dot { display: none; }
+}
+
 @media (max-width: 960px) {
   nav { padding: 20px 24px; }
   .nav-links { gap: 20px; }
   .section-header { padding: 72px 24px 48px; }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .nav-hamburger { display: flex; }
 
   /* Full-screen mobile menu */
