@@ -1,0 +1,483 @@
+/* ─────────────────────────────────────────────────────
+   iPHONE FRAME COMPONENT
+   Used in: Viral Strip, Production Panels, Testimonials, Modal
+───────────────────────────────────────────────────── */
+
+.iphone-frame {
+  position: relative;
+  width: var(--iphone-w, 280px);
+  aspect-ratio: 9 / 19.5;
+  background: #1C1C1E;
+  border-radius: var(--iphone-r, 44px);
+  box-shadow:
+    0 0 0 1.5px #3A3A3C,
+    0 0 0 3.5px #1C1C1E,
+    0 0 0 5px #3A3A3C,
+    0 40px 80px rgba(0, 0, 0, 0.65),
+    0 8px 20px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Power button on right side */
+.iphone-frame::before {
+  content: '';
+  position: absolute;
+  right: calc(var(--iphone-btn-x, -4px));
+  top: 28%;
+  width: 3px;
+  height: var(--iphone-btn-h, 56px);
+  background: #3A3A3C;
+  border-radius: 0 2px 2px 0;
+  z-index: 5;
+}
+
+/* Volume buttons on left side */
+.iphone-frame::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--iphone-btn-x, -4px));
+  top: 22%;
+  width: 3px;
+  height: var(--iphone-btn-h, 56px);
+  background: #3A3A3C;
+  border-radius: 2px 0 0 2px;
+  box-shadow: 0 calc(var(--iphone-btn-h, 56px) + 6px) 0 0 #3A3A3C;
+  z-index: 5;
+}
+
+/* ── STATUS BAR ─────────────────────────────────── */
+.iphone-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--iphone-status-pad, 14px 22px 0);
+  height: var(--iphone-status-h, 44px);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 4;
+}
+
+.iphone-time {
+  font-size: var(--iphone-time-size, 13px);
+  font-weight: 600;
+  color: var(--bone);
+  letter-spacing: -0.02em;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.iphone-signal {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Signal bars SVG substitute */
+.iphone-signal::before {
+  content: '';
+  display: block;
+  width: var(--iphone-icon-w, 14px);
+  height: var(--iphone-icon-h, 9px);
+  background:
+    linear-gradient(to right,
+      var(--bone) 0%,  var(--bone) 18%, transparent 18%, transparent 24%,
+      var(--bone) 24%, var(--bone) 42%, transparent 42%, transparent 48%,
+      var(--bone) 48%, var(--bone) 66%, transparent 66%, transparent 72%,
+      var(--bone) 72%, var(--bone) 100%
+    );
+  mask-image: linear-gradient(to right,
+    linear-gradient(to top, #fff 40%, transparent 40%) 0% / 18% 100% no-repeat,
+    linear-gradient(to top, #fff 55%, transparent 55%) 24% / 18% 100% no-repeat,
+    linear-gradient(to top, #fff 72%, transparent 72%) 48% / 18% 100% no-repeat,
+    linear-gradient(to top, #fff 100%, transparent 100%) 72% / 28% 100% no-repeat
+  );
+  opacity: 0.9;
+}
+
+/* Battery indicator */
+.iphone-battery {
+  width: var(--iphone-bat-w, 20px);
+  height: var(--iphone-bat-h, 10px);
+  border: 1.5px solid rgba(237,234,227,0.8);
+  border-radius: 2px;
+  position: relative;
+}
+.iphone-battery::before {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 5px;
+  background: rgba(237,234,227,0.5);
+  border-radius: 0 1px 1px 0;
+}
+.iphone-battery::after {
+  content: '';
+  position: absolute;
+  inset: 1.5px;
+  right: 30%;
+  background: var(--bone);
+  border-radius: 1px;
+}
+
+/* ── DYNAMIC ISLAND / NOTCH ─────────────────────── */
+.iphone-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--iphone-notch-w, 120px);
+  height: var(--iphone-notch-h, 36px);
+  background: #1C1C1E;
+  border-radius: 0 0 var(--iphone-notch-r, 22px) var(--iphone-notch-r, 22px);
+  z-index: 10;
+}
+
+/* ── SCREEN ─────────────────────────────────────── */
+.iphone-screen {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  margin: 0 var(--iphone-screen-mx, 4px) var(--iphone-screen-mb, 4px);
+  border-radius: calc(var(--iphone-r, 44px) - 8px);
+}
+
+.iphone-screen video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── iOS CONTROLS OVERLAY ───────────────────────── */
+.iphone-controls {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: var(--iphone-ctrl-pad, 14px 16px 18px);
+  background: linear-gradient(to top,
+    rgba(0,0,0,0.80) 0%,
+    rgba(0,0,0,0.40) 60%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  z-index: 3;
+}
+
+.iphone-progress-track {
+  width: 100%;
+  height: 2px;
+  background: rgba(237,234,227,0.25);
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+
+.iphone-progress-fill {
+  height: 100%;
+  width: 30%;
+  background: var(--red);
+  border-radius: 2px;
+  position: relative;
+  transition: width 0.3s linear;
+}
+
+.iphone-progress-fill::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--iphone-dot, 9px);
+  height: var(--iphone-dot, 9px);
+  background: var(--bone);
+  border-radius: 50%;
+}
+
+.iphone-ctrl-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.iphone-play-btn {
+  width: var(--iphone-play-sz, 28px);
+  height: var(--iphone-play-sz, 28px);
+  background: rgba(237,234,227,0.12);
+  border: 1px solid rgba(237,234,227,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--bone);
+  font-size: var(--iphone-play-fs, 9px);
+  padding-left: 2px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.iphone-play-btn:hover { background: rgba(237,234,227,0.22); }
+.iphone-play-btn.playing { padding-left: 0; }
+
+.iphone-time-display {
+  font-size: var(--iphone-ts-size, 9px);
+  color: rgba(237,234,227,0.65);
+  letter-spacing: 0.03em;
+  font-family: Helvetica, Arial, sans-serif;
+  flex: 1;
+}
+
+.iphone-mute-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(237,234,227,0.65);
+  font-size: var(--iphone-mute-fs, 11px);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+/* ── HOME BAR ───────────────────────────────────── */
+.iphone-home {
+  height: var(--iphone-home-h, 22px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.iphone-home::before {
+  content: '';
+  width: var(--iphone-home-w, 110px);
+  height: 4px;
+  background: rgba(237,234,227,0.28);
+  border-radius: 2px;
+}
+
+/* ════════════════════════════════════════════════
+   SIZE VARIANTS
+════════════════════════════════════════════════ */
+
+/* SM — Viral strip iPhones */
+.iphone-sm {
+  --iphone-w:          165px;
+  --iphone-r:          26px;
+  --iphone-btn-x:      -3px;
+  --iphone-btn-h:      38px;
+  --iphone-status-pad: 8px 14px 0;
+  --iphone-status-h:   32px;
+  --iphone-time-size:  9px;
+  --iphone-icon-w:     10px;
+  --iphone-icon-h:     7px;
+  --iphone-bat-w:      14px;
+  --iphone-bat-h:      7px;
+  --iphone-notch-w:    80px;
+  --iphone-notch-h:    24px;
+  --iphone-notch-r:    14px;
+  --iphone-screen-mx:  3px;
+  --iphone-screen-mb:  3px;
+  --iphone-ctrl-pad:   8px 10px 12px;
+  --iphone-dot:        6px;
+  --iphone-play-sz:    20px;
+  --iphone-play-fs:    7px;
+  --iphone-ts-size:    7px;
+  --iphone-mute-fs:    9px;
+  --iphone-home-h:     16px;
+  --iphone-home-w:     70px;
+}
+
+/* MD — Production panel iPhones */
+.iphone-md {
+  --iphone-w:          200px;
+  --iphone-r:          34px;
+  --iphone-btn-x:      -4px;
+  --iphone-btn-h:      46px;
+  --iphone-status-pad: 12px 18px 0;
+  --iphone-status-h:   38px;
+  --iphone-time-size:  11px;
+  --iphone-icon-w:     12px;
+  --iphone-icon-h:     8px;
+  --iphone-bat-w:      17px;
+  --iphone-bat-h:      9px;
+  --iphone-notch-w:    100px;
+  --iphone-notch-h:    30px;
+  --iphone-notch-r:    18px;
+  --iphone-ctrl-pad:   10px 14px 14px;
+  --iphone-dot:        8px;
+  --iphone-play-sz:    24px;
+  --iphone-play-fs:    8px;
+  --iphone-ts-size:    8px;
+  --iphone-mute-fs:    10px;
+  --iphone-home-h:     20px;
+  --iphone-home-w:     90px;
+}
+
+/* XL — Production panel iPhones (between md and lg) */
+.iphone-xl {
+  --iphone-w:          250px;
+  --iphone-r:          42px;
+  --iphone-btn-x:      -4px;
+  --iphone-btn-h:      54px;
+  --iphone-status-pad: 14px 22px 0;
+  --iphone-status-h:   44px;
+  --iphone-time-size:  12px;
+  --iphone-icon-w:     14px;
+  --iphone-icon-h:     9px;
+  --iphone-bat-w:      19px;
+  --iphone-bat-h:      10px;
+  --iphone-notch-w:    116px;
+  --iphone-notch-h:    35px;
+  --iphone-notch-r:    21px;
+  --iphone-screen-mx:  4px;
+  --iphone-screen-mb:  4px;
+  --iphone-ctrl-pad:   12px 18px 18px;
+  --iphone-dot:        9px;
+  --iphone-play-sz:    30px;
+  --iphone-play-fs:    10px;
+  --iphone-ts-size:    9px;
+  --iphone-mute-fs:    12px;
+  --iphone-home-h:     24px;
+  --iphone-home-w:     110px;
+}
+
+/* LG — Modal iPhone / Testimonials / Viral */
+.iphone-lg {
+  --iphone-w:          320px;
+  --iphone-r:          52px;
+  --iphone-btn-x:      -4px;
+  --iphone-btn-h:      64px;
+  --iphone-status-pad: 16px 26px 0;
+  --iphone-status-h:   50px;
+  --iphone-time-size:  15px;
+  --iphone-icon-w:     16px;
+  --iphone-icon-h:     10px;
+  --iphone-bat-w:      22px;
+  --iphone-bat-h:      11px;
+  --iphone-notch-w:    130px;
+  --iphone-notch-h:    40px;
+  --iphone-notch-r:    26px;
+  --iphone-screen-mx:  5px;
+  --iphone-screen-mb:  5px;
+  --iphone-ctrl-pad:   18px 20px 24px;
+  --iphone-dot:        11px;
+  --iphone-play-sz:    36px;
+  --iphone-play-fs:    12px;
+  --iphone-ts-size:    11px;
+  --iphone-mute-fs:    14px;
+  --iphone-home-h:     28px;
+  --iphone-home-w:     140px;
+}
+
+/* ── RED FRAME VARIANT — Viral strip ────────────── */
+.iphone-red {
+  background: #1A0205;
+  box-shadow:
+    0 0 0 1.5px #E11D2A,
+    0 0 0 3.5px #6B0D14,
+    0 0 0 5.5px #E11D2A,
+    0 40px 80px rgba(225, 29, 42, 0.45),
+    0 8px 24px rgba(0, 0, 0, 0.6);
+}
+.iphone-red::before { background: #8A1520; }
+.iphone-red::after {
+  background: #8A1520;
+  box-shadow: 0 calc(var(--iphone-btn-h, 56px) + 6px) 0 0 #8A1520;
+}
+.iphone-red .iphone-notch { background: #1A0205; }
+
+/* ── BONE/WHITE FRAME VARIANT ───────────────────── */
+.iphone-bone {
+  background: #111114;
+  box-shadow:
+    0 0 0 1.5px #EDEAE3,
+    0 0 0 3.5px #2C2C2E,
+    0 0 0 5.5px #EDEAE3,
+    0 40px 80px rgba(237, 234, 227, 0.07),
+    0 8px 24px rgba(0, 0, 0, 0.6);
+}
+.iphone-bone::before { background: #5A5A5C; }
+.iphone-bone::after {
+  background: #5A5A5C;
+  box-shadow: 0 calc(var(--iphone-btn-h, 56px) + 6px) 0 0 #5A5A5C;
+}
+.iphone-bone .iphone-notch { background: #111114; }
+
+/* ── NO STATUS BAR ──────────────────────────────── */
+.iphone-no-status .iphone-status { display: none; }
+.iphone-red.iphone-no-status .iphone-notch { background: #1A0205; }
+.iphone-bone.iphone-no-status .iphone-notch { background: #111114; }
+
+/* ── MODAL overlay ──────────────────────────────── */
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.video-modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.modal-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.modal-close {
+  position: absolute;
+  top: -52px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: rgba(237,234,227,0.1);
+  border: 1px solid rgba(237,234,227,0.2);
+  color: var(--bone);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+.modal-close:hover { background: rgba(237,234,227,0.2); }
+
+.modal-views {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  color: var(--bone);
+}
+.modal-views-icon { color: var(--red); font-size: 13px; }
+.modal-views-count { font-weight: 700; font-size: 28px; letter-spacing: -0.04em; }
+.modal-views em { color: var(--bone-dim); font-style: normal; font-size: 15px; }

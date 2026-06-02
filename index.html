@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GroX — Digital Marketing Agency, Hyderabad</title>
+  <meta name="description" content="GroX is a digital marketing agency in Hyderabad. Content creation, video, personal brands, and SEO for founders and growing businesses across India.">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/iphone.css">
+  <link rel="stylesheet" href="css/sections.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js" defer></script>
+  <script src="js/video.js" defer></script>
+  <script src="js/modal.js" defer></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/scroll.js" defer></script>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor-dot"></div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#" class="nav-logo-pill">
+    <img src="Sample/photo.jpg" alt="GroX" class="nav-logo-img">
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#viral" class="nav-link-dual"><span>Work</span><span aria-hidden="true">Work</span></a></li>
+    <li><a href="#production" class="nav-link-dual"><span>Production</span><span aria-hidden="true">Production</span></a></li>
+    <li><a href="#services" class="nav-link-dual"><span>Services</span><span aria-hidden="true">Services</span></a></li>
+    <li><a href="#inhouse" class="nav-link-dual"><span>About</span><span aria-hidden="true">About</span></a></li>
+    <li><a href="#testimonials" class="nav-link-dual"><span>Clients</span><span aria-hidden="true">Clients</span></a></li>
+    <li><a href="#cta" class="nav-link-dual"><span>Contact</span><span aria-hidden="true">Contact</span></a></li>
+  </ul>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- ── SECTION 1: HERO ─────────────────────────────────── -->
+<section id="hero">
+  <div id="hero-bars"></div>
+  <div class="hero-content">
+    <span class="hero-tagline" id="hero-tagline">Hyderabad, India · Digital Marketing Agency</span>
+    <h1 class="hero-headline" id="hero-headline">We build brands<br>that get <em>taken</em><br><em>seriously.</em></h1>
+    <p class="hero-sub" id="hero-sub">
+      If your business is serious but your content doesn't show it —<br>you're in the right place.
+    </p>
+    <a href="#viral" class="hero-cta" id="hero-cta">
+      <span class="hero-cta-arrow"></span>
+      <span>See the work</span>
+    </a>
+  </div>
+</section>
+
+<!-- ── SECTION 2: VIRAL VIDEOS (3D STRIP) ─────────────── -->
+<section id="viral" class="s-viral">
+  <div class="section-header">
+    <span class="bracket-label" data-blur-label>[ Viral Proof ]</span>
+    <h2 class="section-heading" data-char-blur>These are the viral videos<br>that hit <em>500K+</em> easily.</h2>
+    <p class="section-sub" data-line-reveal>Every reel you see below crossed half a million views. Tap any one to see the impact.</p>
+  </div>
+  <div class="viral-strip-outer">
+    <div class="viral-strip-3d" id="viral-strip-3d">
+      <div class="viral-marquee-track" id="viral-track"
+           data-video="https://stream.files-vault.com/3b6e26e5-c34e-445c-9b33-c7ded0467404/playlist.m3u8"
+           data-count="8">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 3: STATS ────────────────────────────────── -->
+<section id="stats" class="s-stats grain">
+  <div class="section-header">
+    <span class="bracket-label" data-blur-label>[ The Numbers ]</span>
+    <h2 class="section-heading dark" data-char-blur>Numbers won't lie.</h2>
+  </div>
+  <div class="stats-rule" id="stats-rule"></div>
+  <div class="stats-grid">
+    <div class="stat-item" data-target="10" data-suffix="+">
+      <div class="stat-number"><span class="stat-val">0</span><span class="stat-suffix">+</span></div>
+      <div class="stat-label">Brands</div>
+    </div>
+    <div class="stat-item" data-target="11" data-suffix="M+">
+      <div class="stat-number"><span class="stat-val">0</span><span class="stat-suffix">M+</span></div>
+      <div class="stat-label">Organic views</div>
+    </div>
+    <div class="stat-item" data-target="10000" data-suffix="+">
+      <div class="stat-number"><span class="stat-val">0</span><span class="stat-suffix">+</span></div>
+      <div class="stat-label">Qualified leads delivered every month</div>
+    </div>
+  </div>
+  <p class="stat-landing-note" data-line-reveal>From active and recent retainer clients. No inflated impressions, no aggregated reach figures.</p>
+</section>
+
+<!-- ── SECTION 4: PRODUCTION PORTFOLIO (STICKY SCROLL) ── -->
+<section id="production" class="s-production">
+  <div class="section-header prod-intro">
+    <span class="bracket-label" data-blur-label>[ What We Produce ]</span>
+    <h2 class="section-heading" data-char-blur>Production built<br>for every industry.</h2>
+    <p class="section-sub" data-line-reveal>Four verticals. One standard of quality.</p>
+  </div>
+  <div class="prod-panels-wrap" id="prod-panels"
+       data-video="https://stream.files-vault.com/3b6e26e5-c34e-445c-9b33-c7ded0467404/playlist.m3u8">
+    <!-- Injected by main.js -->
+  </div>
+</section>
+
+<!-- ── SECTION 5: SERVICES (FLOW-ART SCROLL) ───────────── -->
+<section id="services" class="s-services">
+  <div class="section-header srv-intro">
+    <span class="bracket-label" data-blur-label>[ Beyond Content ]</span>
+    <h2 class="section-heading" data-char-blur>Every growth lever.<br><em>One team.</em></h2>
+    <p class="section-sub" data-line-reveal>Content is the foundation. These are the services that complete the picture.</p>
+  </div>
+  <div id="srv-flow" class="srv-flow">
+
+    <!-- Panel 01: Meta & Google Ads -->
+    <div class="srv-panel" style="--srv-bg: #000000;">
+      <div class="srv-panel-inner">
+        <div class="srv-top-row">
+          <span class="srv-num">[ 01 ]</span>
+          <span class="srv-category">Paid Advertising</span>
+        </div>
+        <div class="srv-hr"></div>
+        <div class="srv-body">
+          <div class="srv-text-col">
+            <h2 class="srv-headline">Meta &amp;<br>Google<br>Ads</h2>
+            <p class="srv-desc">Paid campaigns that target exactly who should see your brand. We handle setup, creative direction, and daily optimization across Meta and Google — so your budget compounds instead of burns.</p>
+            <div class="srv-pills">
+              <span class="srv-pill">Campaign Setup</span>
+              <span class="srv-pill">Ad Creatives</span>
+              <span class="srv-pill">Daily Optimization</span>
+              <span class="srv-pill">ROI Reporting</span>
+            </div>
+          </div>
+          <div class="srv-img-col">
+            <div class="srv-img-wrap">
+              <img src="Sample/photo.jpg" alt="Meta and Google Ads Management" style="object-position: center top;">
+            </div>
+          </div>
+        </div>
+        <div class="srv-hr"></div>
+        <div class="srv-bottom-row">
+          <a href="#cta" class="srv-cta-link">Start a conversation <span class="srv-arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 02: Graphic Design (flipped) -->
+    <div class="srv-panel srv-panel--flip" style="--srv-bg: #0D0D0D;">
+      <div class="srv-panel-inner">
+        <div class="srv-top-row">
+          <span class="srv-num">[ 02 ]</span>
+          <span class="srv-category">Creative Production</span>
+        </div>
+        <div class="srv-hr"></div>
+        <div class="srv-body">
+          <div class="srv-text-col">
+            <h2 class="srv-headline">Graphic<br>Design</h2>
+            <p class="srv-desc">Posters, stories, and creatives that stop the scroll. Designed in your brand's visual language and produced in-house — at a pace your content calendar can actually use.</p>
+            <div class="srv-pills">
+              <span class="srv-pill">Creative Posters</span>
+              <span class="srv-pill">Story Graphics</span>
+              <span class="srv-pill">Brand Creatives</span>
+            </div>
+          </div>
+          <div class="srv-img-col">
+            <div class="srv-img-wrap">
+              <img src="Sample/photo.jpg" alt="Graphic Design Production" style="object-position: 65% center;">
+            </div>
+          </div>
+        </div>
+        <div class="srv-hr"></div>
+        <div class="srv-bottom-row">
+          <a href="#cta" class="srv-cta-link">Start a conversation <span class="srv-arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 03: GMB -->
+    <div class="srv-panel" style="--srv-bg: #000000;">
+      <div class="srv-panel-inner">
+        <div class="srv-top-row">
+          <span class="srv-num">[ 03 ]</span>
+          <span class="srv-category">Local Presence</span>
+        </div>
+        <div class="srv-hr"></div>
+        <div class="srv-body">
+          <div class="srv-text-col">
+            <h2 class="srv-headline">Google My<br>Business</h2>
+            <p class="srv-desc">Your business pinned to the map and optimized for the searches that matter. We set up and maintain your GMB profile so local clients find you before they find anyone else.</p>
+            <div class="srv-pills">
+              <span class="srv-pill">Profile Setup</span>
+              <span class="srv-pill">Search Optimization</span>
+              <span class="srv-pill">Review Management</span>
+            </div>
+          </div>
+          <div class="srv-img-col">
+            <div class="srv-img-wrap">
+              <img src="Sample/photo.jpg" alt="Google My Business" style="object-position: 30% center;">
+            </div>
+          </div>
+        </div>
+        <div class="srv-hr"></div>
+        <div class="srv-bottom-row">
+          <a href="#cta" class="srv-cta-link">Start a conversation <span class="srv-arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 04: Website Development (flipped) -->
+    <div class="srv-panel srv-panel--flip" style="--srv-bg: #0D0D0D;">
+      <div class="srv-panel-inner">
+        <div class="srv-top-row">
+          <span class="srv-num">[ 04 ]</span>
+          <span class="srv-category">Digital Infrastructure</span>
+        </div>
+        <div class="srv-hr"></div>
+        <div class="srv-body">
+          <div class="srv-text-col">
+            <h2 class="srv-headline">Website<br>Development</h2>
+            <p class="srv-desc">A site that matches the quality of your brand. Clean, fast, and built to convert — from a single landing page to a full business site. Without the six-week timelines.</p>
+            <div class="srv-pills">
+              <span class="srv-pill">Landing Pages</span>
+              <span class="srv-pill">Business Sites</span>
+              <span class="srv-pill">Performance-First Build</span>
+            </div>
+          </div>
+          <div class="srv-img-col">
+            <div class="srv-img-wrap">
+              <img src="Sample/photo.jpg" alt="Website Development" style="object-position: left center;">
+            </div>
+          </div>
+        </div>
+        <div class="srv-hr"></div>
+        <div class="srv-bottom-row">
+          <a href="#cta" class="srv-cta-link">Start a conversation <span class="srv-arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SECTION 6: CLIENT WEIGHTS ──────────────────────── -->
+<section id="client-weights" class="s-weights grain">
+  <div class="section-header">
+    <span class="bracket-label dark" data-blur-label>[ Client Weights ]</span>
+    <h2 class="section-heading dark" data-char-blur>What it actually takes.</h2>
+    <p class="section-sub dark" data-line-reveal>No surprises. No vague packages. This is what each type of production demands.</p>
+  </div>
+  <div class="weights-marquee-outer">
+    <div id="weights-track">
+      <!-- Injected by main.js -->
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 6: TESTIMONIALS (3-col slider) ──────── -->
+<section id="testimonials" class="s-testimonials">
+  <div class="section-header">
+    <span class="bracket-label" data-blur-label>[ What Clients Say ]</span>
+    <h2 class="section-heading" data-char-blur>Trusted by<br>the best.</h2>
+  </div>
+  <div id="ts-slider" class="ts-slider">
+    <!-- Injected by main.js -->
+  </div>
+</section>
+
+<!-- ── SECTION 7: ONE TEAM. ONE CITY. ─────────────────── -->
+<section id="inhouse" class="s-inhouse grain">
+  <div class="inhouse-top">
+    <span class="bracket-label dark" data-blur-label>[ One Team. One City. ]</span>
+    <h2 class="inhouse-headline" data-char-blur>Most agencies have a team on their website.<br>We have one on the floor.</h2>
+    <div class="inhouse-body-wrap">
+      <p class="inhouse-body" data-line-reveal>Writers, editors, videographers, strategists, designers — all in the same building in Hyderabad. Nothing outsourced. Nothing waiting on a freelancer in another city.</p>
+      <p class="inhouse-body" data-line-reveal>By month two, they know your brand the way an in-house hire would. Without you having to build a team, manage payroll, or explain the brief twice.</p>
+    </div>
+    <a href="#cta" class="inhouse-cta-btn">Work with us →</a>
+  </div>
+  <div class="inhouse-photo-strip">
+    <img src="Sample/photo.jpg" alt="GroX Team in Hyderabad">
+  </div>
+  <div class="inhouse-photo-row">
+    <div class="inhouse-photo-sub">
+      <img src="Sample/photo.jpg" alt="GroX Studio">
+    </div>
+    <div class="inhouse-photo-sub">
+      <img src="Sample/photo.jpg" alt="GroX Team at Work">
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 8: PROCESS (HOVER TO OPEN) ────────────── -->
+<section id="process" class="s-process">
+  <div class="process-header">
+    <span class="bracket-label">[ What Working With Us Looks Like ]</span>
+    <h2 class="process-title">You show up.<br>We handle everything else.</h2>
+    <p class="process-sub">Five steps. One in-house team. Repeating monthly.</p>
+  </div>
+  <div class="process-items" id="process-items">
+    <div class="process-item" data-index="0">
+      <div class="process-item-header">
+        <div class="process-item-left">
+          <span class="process-number">[ 01</span>
+          <span class="process-item-title">Scripting</span>
+        </div>
+        <span class="process-toggle">+</span>
+      </div>
+      <div class="process-body">
+        <div class="process-body-inner">It starts with a brief. We sit with you and understand the goal, the audience, what you want to say. Scripts written and sent 2–3 days before shoot. Nothing goes to camera unread by you. The script is yours to approve, change, or push back on. We rewrite until it sounds like you, not like us.</div>
+      </div>
+    </div>
+    <div class="process-item" data-index="1">
+      <div class="process-item-header">
+        <div class="process-item-left">
+          <span class="process-number">[ 02</span>
+          <span class="process-item-title">Shooting</span>
+        </div>
+        <span class="process-toggle">+</span>
+      </div>
+      <div class="process-body">
+        <div class="process-body-inner">Shoot day is structured. Camera, lighting, sound — all set up before you arrive. You focus on talking. Pre-shoot warm-up for founders not comfortable on camera. Teleprompter available if needed. We direct every take, call the angles, and handle the technical side completely. You just show up.</div>
+      </div>
+    </div>
+    <div class="process-item" data-index="2">
+      <div class="process-item-header">
+        <div class="process-item-left">
+          <span class="process-number">[ 03</span>
+          <span class="process-item-title">Editing</span>
+        </div>
+        <span class="process-toggle">+</span>
+      </div>
+      <div class="process-body">
+        <div class="process-body-inner">First cut delivered in [X] days. You review, send notes. Second round is almost always final. Captions, music, subtitles, platform formatting — all handled. Short-form and long-form cuts created from the same shoot where relevant. No re-shoots unless the brief changed.</div>
+      </div>
+    </div>
+    <div class="process-item" data-index="3">
+      <div class="process-item-header">
+        <div class="process-item-left">
+          <span class="process-number">[ 04</span>
+          <span class="process-item-title">Posting</span>
+        </div>
+        <span class="process-toggle">+</span>
+      </div>
+      <div class="process-body">
+        <div class="process-body-inner">We post, schedule, write captions in your voice, manage timing. Hashtag strategy, platform formatting, optimal posting windows — all handled. You approve the calendar once a month. After that, it runs. If something performs unexpectedly well, we adjust the next week without waiting for a monthly review.</div>
+      </div>
+    </div>
+    <div class="process-item" data-index="4">
+      <div class="process-item-header">
+        <div class="process-item-left">
+          <span class="process-number">[ 05</span>
+          <span class="process-item-title">Post-Analytics</span>
+        </div>
+        <span class="process-toggle">+</span>
+      </div>
+      <div class="process-body">
+        <div class="process-body-inner">Monthly report. What reached people. What converted. What didn't work and why. Data feeds next month's strategy so content compounds, not just accumulates. After three months, you'll have a formula. After six, you'll see it scaling. We track outputs that tie to business outcomes — not just reach.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 9: FINAL CTA (GRADIENT GLOW) ──────────── -->
+<section id="cta" class="s-cta">
+  <div id="cta-bars"></div>
+  <div class="cta-glow"></div>
+  <div class="cta-content">
+    <span class="bracket-label" data-blur-label>[ Let's Talk ]</span>
+    <h2 class="cta-headline" data-char-blur>Let's build something<br><em>extraordinary.</em></h2>
+    <a href="https://wa.me/919639632353" target="_blank" rel="noopener" class="cta-btn">
+      <span class="cta-btn-text">Start a conversation</span>
+      <span class="cta-btn-arrow">→</span>
+    </a>
+    <div class="cta-contact-row">
+      <span class="cta-contact-item">teamgrox2025@gmail.com</span>
+      <span class="cta-contact-item">+91 9639632353</span>
+      <span class="cta-contact-item">Hyderabad, India</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────────────── -->
+<footer id="footer">
+  <!-- Top: Logo + Email -->
+  <div class="footer-top-row">
+    <div class="footer-wordmark-col">
+      <div class="footer-wordmark">
+        <img src="Sample/photo.jpg" alt="GroX" class="footer-logo-img" id="footer-giant">
+      </div>
+      <p class="footer-tagline">Full-service digital marketing from Hyderabad.<br>Content, video, strategy — all in one in-house team.</p>
+    </div>
+    <div class="footer-contact-col">
+      <span class="footer-contact-label">Contact us through E-mail</span>
+      <a href="mailto:teamgrox2025@gmail.com" class="footer-email-big">teamgrox2025@gmail.com</a>
+    </div>
+  </div>
+  <!-- Divider -->
+  <div class="footer-rule"></div>
+  <!-- Mid: Nav + Social -->
+  <div class="footer-mid-row">
+    <div class="footer-nav-col">
+      <div class="footer-col-label">Navigation</div>
+      <a href="#viral">Work</a>
+      <a href="#production">Production</a>
+      <a href="#services">Services</a>
+      <a href="#inhouse">About</a>
+      <a href="#cta">Contact</a>
+    </div>
+    <div class="footer-social-col">
+      <div class="footer-col-label">Contact</div>
+      <a href="mailto:teamgrox2025@gmail.com">teamgrox2025@gmail.com</a>
+      <a href="tel:+919639632353">+91 9639632353</a>
+      <a href="https://wa.me/919639632353" target="_blank" rel="noopener">WhatsApp us</a>
+      <span class="footer-mid-location">Hyderabad, India</span>
+    </div>
+  </div>
+  <!-- Bottom bar -->
+  <div class="footer-bottom">
+    <span class="footer-copy">GROX® ©2026 All rights reserved</span>
+    <a href="#" class="footer-link">Privacy Policy</a>
+    <a href="#" class="footer-link">Terms of Service</a>
+    <span class="footer-copy">Hyderabad, India</span>
+  </div>
+</footer>
+
+<!-- VIDEO MODAL -->
+<div id="video-modal" class="video-modal"
+     data-video="https://stream.files-vault.com/3b6e26e5-c34e-445c-9b33-c7ded0467404/playlist.m3u8">
+  <div class="modal-overlay" id="modal-overlay"></div>
+  <div class="modal-content">
+    <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    <div class="modal-iphone-wrap" id="modal-iphone-wrap">
+      <!-- iPhone frame injected by modal.js -->
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
