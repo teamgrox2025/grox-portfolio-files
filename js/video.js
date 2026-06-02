@@ -2,7 +2,8 @@
    VIDEO.JS — HLS.js setup, lazy init, muted autoplay
 ───────────────────────────────────────────────────── */
 
-const VIDEO_SRC = 'https://stream.files-vault.com/3b6e26e5-c34e-445c-9b33-c7ded0467404/playlist.m3u8';
+/* VIDEO_SRC kept as fallback for modal — actual videos use R2 MP4 srcs */
+const VIDEO_SRC = '';
 
 window.GroX = window.GroX || {};
 
@@ -77,11 +78,23 @@ window.GroX.destroyHLS = function (el) {
 window.GroX._lazyObserver = null;
 window.GroX._preloadObserver = null;
 
-// Silently fetch the first chunk of a video into browser cache
+// Prefetch a video using a hidden <link rel=preload> to avoid CORS fetch errors
 window.GroX.prefetchVideo = function (url) {
-  if (!url || url._prefetched) return;
-  url._prefetched = true;
-  fetch(url, { headers: { Range: 'bytes=0-800000' } }).catch(() => {});
+  if (!url || typeof url !== 'string') return;
+  // Deduplicate by tracking on the module-level Set
+  if (window.GroX._prefetchedUrls && window.GroX._prefetchedUrls.has(url)) return;
+  if (!window.GroX._prefetchedUrls) window.GroX._prefetchedUrls = new Set();
+  window.GroX._prefetchedUrls.add(url);
+  // Use <link rel=preload> — browser respects CORS naturally via <video>
+  try {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'video';
+    link.href = url;
+    document.head.appendChild(link);
+  } catch (e) {
+    // preload not supported — silently skip
+  }
 };
 
 // Preload a list of video URLs immediately (used for above-the-fold videos)
@@ -94,8 +107,9 @@ window.GroX.prefetchAll = function (urls) {
 };
 
 window.GroX.lazyInitVideos = function () {
-  // Preload observer — fires 600px before video enters view
+  // Preload observer — fires 900px before video enters view (larger on mobile for slow networks)
   if (!window.GroX._preloadObserver) {
+    const preloadMargin = window.innerWidth <= 768 ? '900px' : '600px';
     window.GroX._preloadObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -106,7 +120,7 @@ window.GroX.lazyInitVideos = function () {
           }
         });
       },
-      { rootMargin: '600px' }
+      { rootMargin: preloadMargin }
     );
   }
 

@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  const VIDEO_SRC = 'https://stream.files-vault.com/3b6e26e5-c34e-445c-9b33-c7ded0467404/playlist.m3u8';
+  /* VIDEO_SRC removed — modal always receives src from the clicked item */
 
   let modalVideo = null;
   let isOpen = false;
@@ -65,7 +65,7 @@
     buildModalIphone();
 
     const modal = document.getElementById('video-modal');
-    const src = videoSrc || VIDEO_SRC;
+    const src = videoSrc || '';
 
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';

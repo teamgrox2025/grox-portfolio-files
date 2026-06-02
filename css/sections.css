@@ -1464,8 +1464,29 @@ footer {
   .prod-panel { padding: 68px 16px 24px; }
   .prod-step-num { font-size: clamp(52px, 13vw, 76px); }
   .prod-panel-top { gap: 14px; margin-bottom: 16px; }
-  #prod-panels .iphone-frame { height: clamp(180px, 42vw, 260px); }
-  .prod-phones { gap: 10px; }
+  /* Phones row → horizontal scroll on mobile */
+  .prod-phones {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: flex-start;
+    padding: 0 0 12px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    flex: none; /* don't stretch vertically */
+    align-items: center;
+  }
+  .prod-phones::-webkit-scrollbar { display: none; }
+  .prod-phone-wrap {
+    scroll-snap-align: center;
+    flex-shrink: 0;
+  }
+  #prod-panels .iphone-frame {
+    height: auto;
+    width: 72vw;
+    max-width: 280px;
+  }
   .prod-specs { margin-top: 12px; gap: 6px; }
   /* Trainers: revert to horizontal scroll on mobile */
   .prod-phones-6 {
@@ -1496,6 +1517,29 @@ footer {
 
   /* CTA */
   .cta-contact-row { flex-direction: column; align-items: center; gap: 12px; }
+}
+
+/* ── TOUCH DEVICES — restore pointer cursor ──────── */
+/* Custom cursor is hidden on touch; cursor:none on links/buttons
+   causes them to appear unclickable on mobile. Fix with pointer. */
+@media (hover: none), (pointer: coarse) {
+  #cursor-dot { display: none !important; }
+  a, button,
+  .hero-cta,
+  .inhouse-cta-btn,
+  .cta-btn,
+  .srv-cta-link,
+  .footer-nav-col a,
+  .footer-social-col a,
+  .footer-link,
+  .footer-email-big,
+  .footer-social-icon,
+  .viral-item,
+  .weight-card,
+  .iphone-frame,
+  .prod-phone-wrap {
+    cursor: pointer !important;
+  }
 }
 
 /* ── SMALL PHONES (≤ 420px) ──────────────────────── */

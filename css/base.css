@@ -35,7 +35,6 @@ body {
 }
 
 img { display: block; max-width: 100%; background: #1a1a1a; }
-img[src="Sample/photo.jpg"] { opacity: 0.15; }
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; }
 ::selection { background: var(--red); color: var(--bone); }
@@ -233,9 +232,15 @@ nav.loaded .nav-links li:nth-child(6) .nav-link-dual { transition-delay: 0.30s; 
 .nav-hamburger.open span:first-child { transform: rotate(45deg) translate(3px, 3.5px); }
 .nav-hamburger.open span:last-child  { transform: rotate(-45deg) translate(3px, -3.5px); }
 
-@media (hover: none) {
+@media (hover: none), (pointer: coarse) {
   body { cursor: auto; }
   #cursor-dot { display: none; }
+  /* Restore pointer on all interactive elements when touch device */
+  a,
+  button,
+  .nav-logo-pill,
+  .nav-link-dual,
+  .nav-hamburger { cursor: pointer; }
 }
 
 @media (max-width: 960px) {

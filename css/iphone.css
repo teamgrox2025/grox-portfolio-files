@@ -485,3 +485,10 @@
 @media (max-width: 600px) {
   .modal-iphone { --iphone-w: clamp(200px, 72vw, 280px); }
 }
+
+/* ── SMALL PHONES (≤ 480px) — production XL phones ─ */
+@media (max-width: 480px) {
+  .iphone-xl {
+    --iphone-w: clamp(140px, 60vw, 180px);
+  }
+}
