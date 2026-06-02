@@ -75,8 +75,42 @@ window.GroX.destroyHLS = function (el) {
 };
 
 window.GroX._lazyObserver = null;
+window.GroX._preloadObserver = null;
+
+// Silently fetch the first chunk of a video into browser cache
+window.GroX.prefetchVideo = function (url) {
+  if (!url || url._prefetched) return;
+  url._prefetched = true;
+  fetch(url, { headers: { Range: 'bytes=0-800000' } }).catch(() => {});
+};
+
+// Preload a list of video URLs immediately (used for above-the-fold videos)
+window.GroX.prefetchAll = function (urls) {
+  if (!Array.isArray(urls)) return;
+  // Stagger fetches so they don't all hit at once
+  urls.forEach((url, i) => {
+    setTimeout(() => window.GroX.prefetchVideo(url), i * 300);
+  });
+};
 
 window.GroX.lazyInitVideos = function () {
+  // Preload observer — fires 600px before video enters view
+  if (!window.GroX._preloadObserver) {
+    window.GroX._preloadObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const video = entry.target;
+            const src = video.dataset.src;
+            if (src) window.GroX.prefetchVideo(src);
+          }
+        });
+      },
+      { rootMargin: '600px' }
+    );
+  }
+
+  // Play observer — fires when video is actually on screen
   if (!window.GroX._lazyObserver) {
     window.GroX._lazyObserver = new IntersectionObserver(
       (entries) => {
@@ -103,6 +137,7 @@ window.GroX.lazyInitVideos = function () {
     if (!v._lazyObserved) {
       v._lazyObserved = true;
       window.GroX._lazyObserver.observe(v);
+      window.GroX._preloadObserver.observe(v);
     }
   });
 };

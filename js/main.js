@@ -716,6 +716,11 @@
     initCounters();
     initProcess();
 
+    // Prefetch viral videos immediately — these are above the fold
+    if (window.GroX && window.GroX.prefetchAll) {
+      window.GroX.prefetchAll(VIRAL_VIDEOS.map(v => v.src));
+    }
+
     // Build gradient bars
     buildGradientBars(document.getElementById('hero-bars'), 18, 'rgba(225,29,42,0.55)');
     buildGradientBars(document.getElementById('cta-bars'), 18, 'rgba(225,29,42,0.55)');
