@@ -402,6 +402,11 @@
   width: auto;
 }
 
+.prod-panel--continuation {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
 .prod-phone-wrap {
   display: flex;
   flex-direction: column;

@@ -50,7 +50,11 @@
       title: 'Trainers/\nCoaches',
       tag: 'Real-world documentation that converts',
       specs: ['Field & studio mix', 'Authentic narrative', 'Transformation edits', 'Long-form + reels'],
-      phones: 6,
+      phones: 3,
+    },
+    {
+      phones: 3,
+      continuation: true,
     },
   ];
 
@@ -287,28 +291,31 @@
       panel.className = 'prod-panel';
       panel.style.zIndex = idx + 1;
 
-      const titleLines = data.title.split('\n').join('<br>');
-
-      panel.innerHTML = `
-        <div class="prod-panel-top">
-          <div class="prod-step-num">${data.num}</div>
-          <div class="prod-panel-info">
-            <div class="prod-panel-label">[ ${data.label} ]</div>
-            <div class="prod-panel-title">${titleLines}</div>
-            <div class="prod-panel-tag">${data.tag}</div>
+      if (data.continuation) {
+        panel.classList.add('prod-panel--continuation');
+        panel.innerHTML = `<div class="prod-phones" id="prod-phones-${idx}"></div>`;
+      } else {
+        const titleLines = data.title.split('\n').join('<br>');
+        panel.innerHTML = `
+          <div class="prod-panel-top">
+            <div class="prod-step-num">${data.num}</div>
+            <div class="prod-panel-info">
+              <div class="prod-panel-label">[ ${data.label} ]</div>
+              <div class="prod-panel-title">${titleLines}</div>
+              <div class="prod-panel-tag">${data.tag}</div>
+            </div>
           </div>
-        </div>
-        <div class="prod-phones" id="prod-phones-${idx}"></div>
-        <div class="prod-specs">
-          ${data.specs.map((s) => `<span class="prod-spec-tag">${s}</span>`).join('')}
-        </div>
-      `;
+          <div class="prod-phones" id="prod-phones-${idx}"></div>
+          <div class="prod-specs">
+            ${data.specs.map((s) => `<span class="prod-spec-tag">${s}</span>`).join('')}
+          </div>
+        `;
+      }
 
       wrap.appendChild(panel);
 
       const phonesRow = panel.querySelector(`#prod-phones-${idx}`);
       const phoneCount = data.phones || 3;
-      if (phoneCount === 6) phonesRow.classList.add('prod-phones-6');
       for (let v = 0; v < phoneCount; v++) {
         const w = document.createElement('div');
         w.className = 'prod-phone-wrap';
