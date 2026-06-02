@@ -272,19 +272,9 @@
         item.className = 'viral-item';
         item.dataset.views = views;
 
-        // Static iPhone shell — no video decoding in the strip
-        const shell = document.createElement('div');
-        shell.className = 'iphone-frame iphone-lg iphone-red iphone-no-status viral-shell';
-        shell.innerHTML = `
-          <div class="iphone-notch"></div>
-          <div class="iphone-screen viral-screen">
-            <div class="viral-play-icon">▶</div>
-          </div>
-          <div class="iphone-home"></div>
-        `;
-        item.appendChild(shell);
+        const frame = buildIphoneFrame('iphone-lg', src, true, 'iphone-red iphone-no-status');
+        item.appendChild(frame);
 
-        // View count badge
         const badge = document.createElement('div');
         badge.className = 'viral-views-badge';
         badge.textContent = views + ' views';
@@ -298,6 +288,43 @@
 
         track.appendChild(item);
       }
+    }
+
+    // Only play max 3 videos at once — check actual visual position via getBoundingClientRect
+    let rafId = null;
+    function managePlayback() {
+      const vw = window.innerWidth;
+      let playing = 0;
+      track.querySelectorAll('.viral-item').forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const visible = rect.left < vw && rect.right > 0;
+        const video = item.querySelector('video');
+        if (!video) return;
+        if (visible && playing < 3) {
+          playing++;
+          if (!video._hlsInit) window.GroX.initHLSVideo(video);
+          else if (video.paused) video.play().catch(() => {});
+        } else {
+          if (!video.paused) video.pause();
+        }
+      });
+      rafId = requestAnimationFrame(managePlayback);
+    }
+
+    // Start/stop rAF loop only when viral section is on screen
+    const section = document.getElementById('viral');
+    if (section) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            if (!rafId) rafId = requestAnimationFrame(managePlayback);
+          } else {
+            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+            track.querySelectorAll('video').forEach((v) => v.pause());
+          }
+        });
+      }, { threshold: 0.1 });
+      obs.observe(section);
     }
   }
 
@@ -376,11 +403,6 @@
           </div>
         `;
 
-        card.addEventListener('click', () => {
-          if (window.GroX && window.GroX.openModal) {
-            window.GroX.openModal('500K+');
-          }
-        });
 
         track.appendChild(card);
       });
