@@ -285,7 +285,23 @@
       }
     }
 
-    if (window.GroX) window.GroX.lazyInitVideos();
+    // Only play videos that are visually inside the horizontal viewport
+    setInterval(() => {
+      const track = document.getElementById('viral-track');
+      if (!track) return;
+      track.querySelectorAll('.viral-item').forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const inView = rect.left < window.innerWidth + 60 && rect.right > -60;
+        const video = item.querySelector('video');
+        if (!video) return;
+        if (inView) {
+          if (!video._hlsInit) window.GroX.initHLSVideo(video);
+          else if (video.paused && video.muted) video.play().catch(() => {});
+        } else {
+          if (!video.paused) video.pause();
+        }
+      });
+    }, 500);
   }
 
   /* ══════════════════════════════════════════════════
@@ -295,7 +311,7 @@
     const wrap = document.getElementById('prod-panels');
     if (!wrap) return;
 
-    const src = wrap.dataset.video || VIDEO_SRC;
+    const src = wrap.dataset.video || '';
 
     PROD_DATA.forEach((data, idx) => {
       const panel = document.createElement('div');
@@ -383,21 +399,21 @@
       affiliation: '[Company]',
       initial: 'N',
       quote: 'We\'ve worked with three agencies before GroX. This is the first team that understood the brand before suggesting anything.',
-      videoSrc: VIDEO_SRC,
+      videoSrc: R2 + '/viral/vp1.mp4',
     },
     {
       name: '[Client Name]',
       affiliation: '[Company]',
       initial: 'S',
       quote: 'Our founder had been camera-shy for two years. GroX got them on video in a way that finally felt natural. Within two months, inbound enquiries had doubled.',
-      videoSrc: VIDEO_SRC,
+      videoSrc: R2 + '/viral/vp2.mp4',
     },
     {
       name: '[Client Name]',
       affiliation: '[Company]',
       initial: 'R',
       quote: 'Honest team. Sharp work. No theatre.',
-      videoSrc: VIDEO_SRC,
+      videoSrc: R2 + '/viral/vp3.mp4',
     },
   ];
 
