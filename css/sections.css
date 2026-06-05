@@ -231,7 +231,6 @@
   padding: 0 48px 100px;
   position: relative;
   overflow: hidden;
-  border-radius: 20px 20px 0 0;
 }
 
 .s-stats .section-header {
@@ -1417,7 +1416,6 @@ footer {
     border-radius: 0;
     border-bottom: 1px solid var(--bone-dim-3);
   }
-  .s-stats { border-radius: 0; }
   .prod-panel-top { margin-bottom: 24px; }
   .prod-phones {
     gap: 16px;
