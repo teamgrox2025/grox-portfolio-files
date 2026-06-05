@@ -25,49 +25,35 @@
 
     /* ── SECTION 3: STATS ──────────────────────────────
        stat-items start opacity:0 in CSS, revealed here  */
-    var statObs = once(0.25, function (el) { el.classList.add('visible'); });
+    var statObs = once(0.1, function (el) { el.classList.add('visible'); });
     document.querySelectorAll('.stat-item').forEach(function (el) {
       statObs.observe(el);
     });
     var ruleEl = document.getElementById('stats-rule');
-    if (ruleEl) once(0.1, function (el) { el.classList.add('visible'); }).observe(ruleEl);
+    if (ruleEl) once(0.05, function (el) { el.classList.add('visible'); }).observe(ruleEl);
 
     /* ── SECTION 4: PRODUCTION PANELS ─────────────────
-       position:sticky panels need scroll-position math,
-       NOT IntersectionObserver.
-
-       Root cause: clip-path on an observed element makes
-       the browser report intersectionRatio=0 even when the
-       element's layout box is inside the viewport — so IO
-       never fires. We fall back to a passive scroll listener
-       that compares window.scrollY against each panel's
-       natural offsetTop (stable, unaffected by sticky).
-
-       Two-layer animation per panel (idx > 0):
-       1. Panel itself: clip-path inset wipe (overlay effect)
-       2. Phones / step-num / spec-tags: stagger reveal       */
+       Cards stack via CSS sticky (position:sticky; top:60px;
+       border-radius:20px 20px 0 0) — pure DOM-order stacking,
+       no clip-path. JS only animates the inner content
+       (phones, step-num, spec-tags) via IntersectionObserver. */
     function observeProductionPanels() {
       var panels = Array.from(document.querySelectorAll('.prod-panel'));
       if (!panels.length) { requestAnimationFrame(observeProductionPanels); return; }
 
-      /* ── Initial state setup ── */
-      panels.forEach(function (panel, idx) {
-        if (idx > 0) {
-          panel.style.clipPath  = 'inset(100% 0 0 0)';
-          panel.style.transition = 'clip-path 0.65s cubic-bezier(0.22,1,0.36,1)';
-        }
+      panels.forEach(function (panel) {
         var phones  = Array.from(panel.querySelectorAll('.iphone-frame'));
         var stepNum = panel.querySelector('.prod-step-num');
         var specs   = Array.from(panel.querySelectorAll('.prod-spec-tag'));
 
         phones.forEach(function (p) {
           p.style.opacity    = '0';
-          p.style.transform  = 'translateY(50px) scale(0.92)';
+          p.style.transform  = 'translateY(40px) scale(0.94)';
           p.style.transition = 'opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1)';
         });
         if (stepNum) {
           stepNum.style.opacity    = '0';
-          stepNum.style.transform  = 'translateX(-28px)';
+          stepNum.style.transform  = 'translateX(-24px)';
           stepNum.style.transition = 'opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1)';
         }
         specs.forEach(function (s) {
@@ -75,57 +61,23 @@
           s.style.transform  = 'translateY(10px)';
           s.style.transition = 'opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1)';
         });
+
+        var obs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            obs.unobserve(panel);
+            if (stepNum) { stepNum.style.opacity = '1'; stepNum.style.transform = 'none'; }
+            phones.forEach(function (p, i) {
+              setTimeout(function () { p.style.opacity = '1'; p.style.transform = 'none'; }, 80 + i * 120);
+            });
+            specs.forEach(function (s, i) {
+              setTimeout(function () { s.style.opacity = '1'; s.style.transform = 'none'; }, 300 + i * 60);
+            });
+          });
+        }, { threshold: 0.08 });
+
+        obs.observe(panel);
       });
-
-      /* ── Natural document-top via offsetTop chain (stable for sticky) ── */
-      function getDocTop(el) {
-        var top = 0;
-        var cur = el;
-        while (cur && cur !== document.body) {
-          top += cur.offsetTop || 0;
-          cur = cur.offsetParent;
-        }
-        return top;
-      }
-      var panelTops = panels.map(getDocTop);
-      var triggered = panels.map(function () { return false; });
-      var vh = window.innerHeight;
-
-      function animatePanel(idx) {
-        var panel   = panels[idx];
-        var phones  = Array.from(panel.querySelectorAll('.iphone-frame'));
-        var stepNum = panel.querySelector('.prod-step-num');
-        var specs   = Array.from(panel.querySelectorAll('.prod-spec-tag'));
-
-        if (idx > 0) panel.style.clipPath = 'inset(0% 0 0 0)';
-        if (stepNum) { stepNum.style.opacity = '1'; stepNum.style.transform = 'none'; }
-        phones.forEach(function (p, i) {
-          setTimeout(function () { p.style.opacity = '1'; p.style.transform = 'none'; }, 100 + i * 130);
-        });
-        specs.forEach(function (s, i) {
-          setTimeout(function () { s.style.opacity = '1'; s.style.transform = 'none'; }, 360 + i * 70);
-        });
-      }
-
-      /* Trigger when 12% of panel is visible from below.
-         All panels go through the same handler — panel 0 skips clip-path. */
-      function onScroll() {
-        var sy = window.scrollY;
-        var allDone = true;
-        for (var i = 0; i < panels.length; i++) {
-          if (!triggered[i]) {
-            allDone = false;
-            if (sy >= panelTops[i] - vh * 0.88) {
-              triggered[i] = true;
-              animatePanel(i);
-            }
-          }
-        }
-        if (allDone) window.removeEventListener('scroll', onScroll);
-      }
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll(); /* in case page loads already scrolled */
     }
     observeProductionPanels();
 
