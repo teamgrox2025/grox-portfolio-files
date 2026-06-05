@@ -22,7 +22,7 @@
     document.querySelectorAll('.srv-panel-inner').forEach((el) => {
       el.style.transform = 'none';
     });
-    document.querySelectorAll('.prod-panel .iphone-frame, .footer-logo-img').forEach((el) => {
+    document.querySelectorAll('.prod-panel .iphone-frame, .prod-panel .prod-step-num, .prod-panel .prod-spec-tag, .footer-logo-img').forEach((el) => {
       el.style.opacity = '1';
       el.style.transform = 'none';
     });
@@ -264,49 +264,70 @@
       );
     }
 
-    /* -- PRODUCTION PANEL animations ------------------- */
-    document.querySelectorAll('.prod-panel').forEach((panel) => {
-      const phones = panel.querySelectorAll('.iphone-frame');
-      if (phones.length) {
-        gsap.fromTo(phones,
-          { opacity: 0, y: 60, scale: 0.9 },
-          {
-            opacity: 1, y: 0, scale: 1,
-            duration: 0.7,
-            stagger: 0.12,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: panel,
-              start: 'top 60%',
-              once: true,
-            },
-          }
-        );
-      }
+    /* -- PRODUCTION PANEL animations -------------------
+       Uses IntersectionObserver (not ScrollTrigger) because the panels
+       are position:sticky — ScrollTrigger calculates from document
+       position, which doesn't match the visual sticky position and
+       causes triggers to fire at the wrong time. IntersectionObserver
+       tracks actual viewport visibility and works correctly here.     */
+    (function () {
+      const panels = Array.from(document.querySelectorAll('.prod-panel'));
+      if (!panels.length) return;
 
-      const stepNum = panel.querySelector('.prod-step-num');
-      if (stepNum) {
-        gsap.fromTo(stepNum,
-          { opacity: 0, x: -30 },
-          {
-            opacity: 1, x: 0, duration: 0.6, ease: 'power2.out',
-            scrollTrigger: { trigger: panel, start: 'top 65%', once: true },
-          }
-        );
-      }
+      panels.forEach((panel) => {
+        const phones  = Array.from(panel.querySelectorAll('.iphone-frame'));
+        const stepNum = panel.querySelector('.prod-step-num');
+        const specs   = Array.from(panel.querySelectorAll('.prod-spec-tag'));
 
-      const specs = panel.querySelectorAll('.prod-spec-tag');
-      if (specs.length) {
-        gsap.fromTo(specs,
-          { opacity: 0, y: 12 },
-          {
-            opacity: 1, y: 0, duration: 0.5, stagger: 0.07,
-            ease: 'power2.out',
-            scrollTrigger: { trigger: panel, start: 'top 50%', once: true },
-          }
-        );
-      }
-    });
+        /* Set initial hidden state via inline style so CSS can still override */
+        phones.forEach((p) => {
+          p.style.opacity   = '0';
+          p.style.transform = 'translateY(50px) scale(0.92)';
+          p.style.transition = 'opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1)';
+        });
+        if (stepNum) {
+          stepNum.style.opacity   = '0';
+          stepNum.style.transform = 'translateX(-28px)';
+          stepNum.style.transition = 'opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1)';
+        }
+        specs.forEach((s) => {
+          s.style.opacity   = '0';
+          s.style.transform = 'translateY(10px)';
+          s.style.transition = 'opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+        });
+
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            obs.unobserve(panel);
+
+            /* Step number — first */
+            if (stepNum) {
+              stepNum.style.opacity   = '1';
+              stepNum.style.transform = 'none';
+            }
+
+            /* Phones — staggered */
+            phones.forEach((p, i) => {
+              setTimeout(() => {
+                p.style.opacity   = '1';
+                p.style.transform = 'none';
+              }, 80 + i * 130);
+            });
+
+            /* Spec tags — after phones */
+            specs.forEach((s, i) => {
+              setTimeout(() => {
+                s.style.opacity   = '1';
+                s.style.transform = 'none';
+              }, 340 + i * 70);
+            });
+          });
+        }, { threshold: 0.18 });
+
+        obs.observe(panel);
+      });
+    })();
 
     ScrollTrigger.refresh();
     /* Second refresh after a short delay so any dynamically injected
