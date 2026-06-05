@@ -6,8 +6,35 @@
 (function () {
   'use strict';
 
+  /* If GSAP/ScrollTrigger never load (CDN blocked, network error),
+     reveal all hidden elements after 4 s so the page isn't blank. */
+  function revealFallback() {
+    document.querySelectorAll('.stat-item, .process-item').forEach((el) => {
+      el.classList.add('visible');
+    });
+    document.querySelectorAll('[data-char-blur], [data-line-reveal], [data-blur-label]').forEach((el) => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+      el.style.filter = 'none';
+    });
+    const strip3d = document.getElementById('viral-strip-3d');
+    if (strip3d) { strip3d.style.opacity = '1'; strip3d.style.transform = 'none'; }
+    document.querySelectorAll('.srv-panel-inner').forEach((el) => {
+      el.style.transform = 'none';
+    });
+    document.querySelectorAll('.prod-panel .iphone-frame, .footer-logo-img').forEach((el) => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+  }
+
+  let retries = 0;
+  const maxRetries = 50; // 50 × 80 ms = 4 s
+
   function init() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+      retries++;
+      if (retries >= maxRetries) { revealFallback(); return; }
       setTimeout(init, 80);
       return;
     }
@@ -207,16 +234,18 @@
 
         if (i > 0) {
           gsap.set(inner, { rotation: 30, transformOrigin: 'bottom left' });
-          gsap.to(inner, {
-            rotation: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: panel,
-              start: 'top bottom',
-              end: 'top 18%',
-              scrub: true,
-            },
+          const st = ScrollTrigger.create({
+            trigger: panel,
+            start: 'top bottom',
+            end: 'top 18%',
+            scrub: true,
+            animation: gsap.to(inner, { rotation: 0, ease: 'none' }),
           });
+          /* Safety: if panel is already on screen when page loads, snap to 0 */
+          const rect = panel.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.18) {
+            gsap.set(inner, { rotation: 0 });
+          }
         }
       });
     })();
@@ -280,6 +309,9 @@
     });
 
     ScrollTrigger.refresh();
+    /* Second refresh after a short delay so any dynamically injected
+       content (production panels, viral strip) is fully laid out. */
+    setTimeout(() => ScrollTrigger.refresh(), 400);
   }
 
   if (document.readyState === 'loading') {
