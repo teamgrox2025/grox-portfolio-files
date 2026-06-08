@@ -290,6 +290,47 @@
       }
     }
 
+    // JS-driven marquee — replaces CSS animation so nav buttons work
+    track.style.animation = 'none';
+    var jOffset = 0, jTarget = 0, jAuto = true, jTimer = null;
+    var J_SPEED = 0.5;
+    var J_STEP = 300;
+
+    function getTrackHalf() { return track.scrollWidth / 2; }
+
+    function jMarquee() {
+      if (jAuto) jTarget -= J_SPEED;
+      var half = getTrackHalf();
+      if (half > 0) {
+        jOffset += (jTarget - jOffset) * 0.08;
+        if (jOffset <= -half) { jOffset += half; jTarget += half; }
+        if (jOffset > 0) { jOffset -= half; jTarget -= half; }
+        track.style.transform = 'translateX(' + jOffset + 'px)';
+      }
+      requestAnimationFrame(jMarquee);
+    }
+    setTimeout(function() {
+      var firstItem = track.querySelector('.viral-item');
+      if (firstItem) J_STEP = firstItem.offsetWidth + 28;
+      requestAnimationFrame(jMarquee);
+    }, 150);
+
+    track.addEventListener('mouseenter', function() { jAuto = false; clearTimeout(jTimer); });
+    track.addEventListener('mouseleave', function() {
+      jTimer = setTimeout(function() { jAuto = true; }, 300);
+    });
+
+    var viralPrevBtn = document.querySelector('.viral-prev-btn');
+    var viralNextBtn = document.querySelector('.viral-next-btn');
+    function viralShift(delta) {
+      jAuto = false;
+      jTarget += delta;
+      clearTimeout(jTimer);
+      jTimer = setTimeout(function() { jAuto = true; }, 3000);
+    }
+    if (viralPrevBtn) viralPrevBtn.addEventListener('click', function() { viralShift(J_STEP); });
+    if (viralNextBtn) viralNextBtn.addEventListener('click', function() { viralShift(-J_STEP); });
+
     // Only play max 3 videos at once — check actual visual position via getBoundingClientRect
     let rafId = null;
     function managePlayback() {
@@ -392,17 +433,23 @@
     if (!track) return;
 
     for (let set = 0; set < 2; set++) {
-      WEIGHT_DATA.forEach((data) => {
+      WEIGHT_DATA.forEach((data, idx) => {
         const card = document.createElement('div');
         card.className = 'weight-card';
         card.dataset.tilt = '';
         card.dataset.viewsLabel = data.label;
+        card.dataset.weightIdx = idx;
         card.innerHTML = `
           <div class="weight-card-img">
             <img src="${data.img}" alt="${data.alt}">
           </div>
         `;
 
+        card.addEventListener('click', function() {
+          if (window.GroX && window.GroX.openWeightsLightbox) {
+            window.GroX.openWeightsLightbox(idx);
+          }
+        });
 
         track.appendChild(card);
       });
@@ -716,6 +763,66 @@
   }
 
   /* ══════════════════════════════════════════════════
+     WEIGHTS LIGHTBOX
+  ══════════════════════════════════════════════════ */
+  function initWeightsLightbox() {
+    const lb = document.getElementById('weights-lightbox');
+    if (!lb) return;
+
+    let currentIdx = 0;
+
+    function updateImage() {
+      const data = WEIGHT_DATA[currentIdx];
+      const img = document.getElementById('weights-lb-img');
+      const label = document.getElementById('weights-lb-label');
+      if (img) { img.src = data.img; img.alt = data.alt; }
+      if (label) label.textContent = data.label;
+    }
+
+    function open(idx) {
+      currentIdx = ((idx % WEIGHT_DATA.length) + WEIGHT_DATA.length) % WEIGHT_DATA.length;
+      updateImage();
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      lb.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function goNext() {
+      currentIdx = (currentIdx + 1) % WEIGHT_DATA.length;
+      updateImage();
+    }
+
+    function goPrev() {
+      currentIdx = (currentIdx - 1 + WEIGHT_DATA.length) % WEIGHT_DATA.length;
+      updateImage();
+    }
+
+    const closeBtn = document.getElementById('weights-lb-close');
+    const overlay = document.getElementById('weights-lb-overlay');
+    const prevBtn = document.getElementById('weights-lb-prev');
+    const nextBtn = document.getElementById('weights-lb-next');
+
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    if (overlay) overlay.addEventListener('click', close);
+    if (prevBtn) prevBtn.addEventListener('click', goPrev);
+    if (nextBtn) nextBtn.addEventListener('click', goNext);
+
+    document.addEventListener('keydown', function(e) {
+      if (!lb.classList.contains('active')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') goPrev();
+      if (e.key === 'ArrowRight') goNext();
+    });
+
+    window.GroX = window.GroX || {};
+    window.GroX.openWeightsLightbox = open;
+  }
+
+  /* ══════════════════════════════════════════════════
      MOBILE NAV (hamburger)
   ══════════════════════════════════════════════════ */
   function initMobileNav() {
@@ -760,6 +867,7 @@
     buildProductionPanels();
     buildWeightsMarquee();
     buildTestimonialsSlider();
+    initWeightsLightbox();
 
     // Init tilt after weights are built
     setTimeout(() => {

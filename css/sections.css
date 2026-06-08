@@ -166,12 +166,51 @@
   padding-bottom: 0;
 }
 
-.viral-strip-outer {
+.viral-strip-wrap {
+  position: relative;
   margin-top: 64px;
+}
+
+.viral-strip-outer {
+  margin-top: 0;
   overflow: hidden;
   padding: 60px 0 80px;
   margin-left: -48px;
   margin-right: -48px;
+}
+
+.viral-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(225,29,42,0.15);
+  border: 1px solid rgba(225,29,42,0.45);
+  color: var(--bone);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s, border-color 0.25s, transform 0.25s;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.viral-nav-btn:hover {
+  background: var(--red);
+  border-color: var(--red);
+  transform: translateY(-50%) scale(1.08);
+}
+.viral-prev-btn { left: 20px; }
+.viral-next-btn { right: 20px; }
+
+/* Viral strip phones — 20% smaller than iphone-lg */
+.viral-item .iphone-frame {
+  --iphone-w: clamp(160px, 30.4vw, 256px);
+  --iphone-r: clamp(27px, 6vw, 42px);
 }
 
 .viral-strip-3d {
@@ -272,7 +311,7 @@
 .stat-number {
   font-family: Helvetica, Arial, sans-serif;
   font-weight: 700;
-  font-size: clamp(52px, 6vw, 80px);
+  font-size: clamp(80px, 10vw, 140px);
   line-height: 0.88;
   letter-spacing: -0.06em;
   color: var(--black);
@@ -282,21 +321,33 @@
 }
 
 .stat-suffix {
-  font-size: clamp(22px, 2.5vw, 32px);
-  margin-top: 8px;
+  font-size: clamp(32px, 3.5vw, 52px);
+  margin-top: 10px;
   font-weight: 400;
   letter-spacing: 0;
 }
 
+.stat-dot {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(80px, 10vw, 140px);
+  line-height: 0.88;
+  letter-spacing: -0.06em;
+  color: var(--red);
+  align-self: flex-start;
+  margin-left: 2px;
+}
+
 .stat-label {
-  font-size: 13px;
-  color: rgba(0,0,0,0.5);
+  font-size: 15px;
+  color: rgba(0,0,0,0.75);
   letter-spacing: 0.01em;
-  margin-top: 18px;
+  margin-top: 20px;
   line-height: 1.5;
-  max-width: 160px;
+  max-width: 180px;
   margin-left: auto;
   margin-right: auto;
+  font-weight: 500;
 }
 
 .stat-landing-note {
@@ -1490,6 +1541,9 @@ footer {
   /* Shared */
   .viral-strip-outer { margin-left: -24px; margin-right: -24px; }
   .section-header { padding: 64px 24px 48px; }
+  .viral-nav-btn { width: 40px; height: 40px; font-size: 16px; }
+  .viral-prev-btn { left: 8px; }
+  .viral-next-btn { right: 8px; }
 }
 
 /* ── MOBILE (≤ 600px) ────────────────────────────── */
@@ -1518,6 +1572,11 @@ footer {
 
   /* CTA */
   .cta-contact-row { flex-direction: column; align-items: center; gap: 12px; }
+
+  /* Lightbox */
+  .weights-lb-nav { width: 38px; height: 38px; font-size: 16px; }
+  .weights-lb-content { gap: 10px; }
+  .weights-lb-img-wrap img { max-height: 75vh; max-width: 90vw; }
 }
 
 /* ── TOUCH DEVICES — restore pointer cursor ──────── */
@@ -1541,6 +1600,103 @@ footer {
   .prod-phone-wrap {
     cursor: pointer !important;
   }
+}
+
+/* ── WEIGHTS LIGHTBOX ──────────────────────────── */
+.weights-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.weights-lightbox.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.weights-lb-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.weights-lb-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.weights-lb-close {
+  position: absolute;
+  top: -56px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(237,234,227,0.1);
+  border: 1px solid rgba(237,234,227,0.2);
+  color: var(--bone);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.weights-lb-close:hover { background: rgba(237,234,227,0.22); }
+.weights-lb-img-wrap {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  max-width: 80vw;
+  max-height: 82vh;
+}
+.weights-lb-img-wrap img {
+  display: block;
+  max-height: 82vh;
+  max-width: 80vw;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 6px;
+  transition: opacity 0.2s;
+}
+.weights-lb-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 32px 20px 18px;
+  background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(237,234,227,0.95);
+  font-weight: 600;
+  pointer-events: none;
+}
+.weights-lb-nav {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(237,234,227,0.1);
+  border: 1px solid rgba(237,234,227,0.25);
+  color: var(--bone);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.25s, border-color 0.25s;
+}
+.weights-lb-nav:hover {
+  background: var(--red);
+  border-color: var(--red);
 }
 
 /* ── SMALL PHONES (≤ 420px) ──────────────────────── */

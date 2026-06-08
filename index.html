@@ -67,12 +67,15 @@
     <h2 class="section-heading" data-char-blur>These are the viral videos<br>that hit <em>500K+</em> easily.</h2>
     <p class="section-sub" data-line-reveal>Every reel you see below crossed half a million views. Tap any one to see the impact.</p>
   </div>
-  <div class="viral-strip-outer">
-    <div class="viral-strip-3d" id="viral-strip-3d">
-      <div class="viral-marquee-track" id="viral-track"
-           data-count="8">
+  <div class="viral-strip-wrap">
+    <button class="viral-nav-btn viral-prev-btn" aria-label="Previous videos">&#8592;</button>
+    <div class="viral-strip-outer">
+      <div class="viral-strip-3d" id="viral-strip-3d">
+        <div class="viral-marquee-track" id="viral-track" data-count="8">
+        </div>
       </div>
     </div>
+    <button class="viral-nav-btn viral-next-btn" aria-label="Next videos">&#8594;</button>
   </div>
 </section>
 
@@ -85,15 +88,15 @@
   <div class="stats-rule" id="stats-rule"></div>
   <div class="stats-grid">
     <div class="stat-item" data-target="30" data-suffix="+">
-      <div class="stat-number"><span class="stat-val">0</span><span class="stat-suffix">+</span></div>
+      <div class="stat-number"><span class="stat-val">0</span><span class="stat-suffix">+</span><span class="stat-dot">.</span></div>
       <div class="stat-label">Brands</div>
     </div>
     <div class="stat-item" data-target="11" data-suffix="M+">
-      <div class="stat-number"><span class="stat-val">0</span><span class="stat-suffix">M+</span></div>
+      <div class="stat-number"><span class="stat-val">0</span><span class="stat-suffix">M+</span><span class="stat-dot">.</span></div>
       <div class="stat-label">Organic views</div>
     </div>
     <div class="stat-item" data-target="10000" data-suffix="+">
-      <div class="stat-number"><span class="stat-val">0</span><span class="stat-suffix">+</span></div>
+      <div class="stat-number"><span class="stat-val">0</span><span class="stat-suffix">+</span><span class="stat-dot">.</span></div>
       <div class="stat-label">Qualified leads delivered every month</div>
     </div>
   </div>
@@ -431,6 +434,20 @@
     <span class="footer-copy">Hyderabad, India</span>
   </div>
 </footer>
+
+<!-- WEIGHTS LIGHTBOX -->
+<div id="weights-lightbox" class="weights-lightbox">
+  <div class="weights-lb-overlay" id="weights-lb-overlay"></div>
+  <div class="weights-lb-content">
+    <button class="weights-lb-close" id="weights-lb-close">&#10005;</button>
+    <button class="weights-lb-nav weights-lb-prev" id="weights-lb-prev">&#8592;</button>
+    <div class="weights-lb-img-wrap">
+      <img id="weights-lb-img" src="" alt="">
+      <div class="weights-lb-label" id="weights-lb-label"></div>
+    </div>
+    <button class="weights-lb-nav weights-lb-next" id="weights-lb-next">&#8594;</button>
+  </div>
+</div>
 
 <!-- VIDEO MODAL -->
 <div id="video-modal" class="video-modal">
