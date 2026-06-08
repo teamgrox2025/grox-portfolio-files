@@ -869,6 +869,49 @@
     buildTestimonialsSlider();
     initWeightsLightbox();
 
+    // JS-driven weights marquee with nav buttons
+    (function() {
+      var wTrack = document.getElementById('weights-track');
+      if (!wTrack) return;
+      wTrack.style.animation = 'none';
+      var wOffset = 0, wTarget = 0, wAuto = true, wTimer = null;
+      var W_SPEED = 0.6, W_STEP = 300;
+
+      function wHalf() { return wTrack.scrollWidth / 2; }
+      function wLoop() {
+        if (wAuto) wTarget -= W_SPEED;
+        var half = wHalf();
+        if (half > 0) {
+          wOffset += (wTarget - wOffset) * 0.08;
+          if (wOffset <= -half) { wOffset += half; wTarget += half; }
+          if (wOffset > 0) { wOffset -= half; wTarget -= half; }
+          wTrack.style.transform = 'translateX(' + wOffset + 'px)';
+        }
+        requestAnimationFrame(wLoop);
+      }
+      setTimeout(function() {
+        var firstCard = wTrack.querySelector('.weight-card');
+        if (firstCard) W_STEP = firstCard.offsetWidth + 20;
+        requestAnimationFrame(wLoop);
+      }, 150);
+
+      wTrack.addEventListener('mouseenter', function() { wAuto = false; clearTimeout(wTimer); });
+      wTrack.addEventListener('mouseleave', function() {
+        wTimer = setTimeout(function() { wAuto = true; }, 300);
+      });
+
+      function wShift(delta) {
+        wAuto = false;
+        wTarget += delta;
+        clearTimeout(wTimer);
+        wTimer = setTimeout(function() { wAuto = true; }, 3000);
+      }
+      var wPrev = document.querySelector('.weights-prev-btn');
+      var wNext = document.querySelector('.weights-next-btn');
+      if (wPrev) wPrev.addEventListener('click', function() { wShift(W_STEP); });
+      if (wNext) wNext.addEventListener('click', function() { wShift(-W_STEP); });
+    })();
+
     // Init tilt after weights are built
     setTimeout(() => {
       initWeightsTilt();
